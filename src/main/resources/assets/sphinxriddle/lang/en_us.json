@@ -1,5 +1,28 @@
 {
-  "itemGroup.quizcraft": "Example Mod Tab",
-  "block.quizcraft.example_block": "Example Block",
-  "item.quizcraft.example_item": "Example Item"
+  "sphinxriddle.command.help.title": "=== SphinxRiddle Commands ===",
+  "sphinxriddle.command.help.question": "/sr question - Start a new question",
+  "sphinxriddle.command.help.question_op": "/sr question - Start a new question (OP only)",
+  "sphinxriddle.command.help.add_reward": "/sr add reward <item> <amount> - Add reward",
+  "sphinxriddle.command.help.remove_reward": "/sr remove reward <item> - Remove reward",
+
+  "sphinxriddle.command.reload.success": "Configuration reloaded",
+  "sphinxriddle.command.reload.failed": "SphinxRiddle not initialized",
+
+  "sphinxriddle.command.add_question.success": "Added question: %s",
+  "sphinxriddle.command.add_reward.success": "Added reward: %s *%s",
+
+  "sphinxriddle.command.question.success": "New question published",
+
+  "sphinxriddle.command.list.questions": "=== Question List ===",
+  "sphinxriddle.command.list.rewards": "=== Reward List ===",
+  "sphinxriddle.command.list.ranking": "=== Ranking ===",
+  "sphinxriddle.command.list.no_data": "No data available",
+
+  "sphinxriddle.command.reset_ranking.success": "Ranking reset",
+
+  "sphinxriddle.command.remove_question.success": "Removed question: %s",
+  "sphinxriddle.command.remove_reward.success": "Removed reward: %s",
+
+  "sphinxriddle.scoreboard.title": "Quiz Ranking",
+  "sphinxriddle.scoreboard.points": " points"
 }

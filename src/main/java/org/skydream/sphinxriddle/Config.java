@@ -14,6 +14,10 @@ public class Config {
     public static final ModConfigSpec.ConfigValue<String> NEW_QUESTION_MESSAGE;
     public static final ModConfigSpec.ConfigValue<String> CONFIG_RELOADED_MESSAGE;
 
+    // ★ 新增配置项
+    public static final ModConfigSpec.ConfigValue<Boolean> ALLOW_MANUAL_QUESTION;
+    public static final ModConfigSpec.ConfigValue<Boolean> SHOW_SCOREBOARD;
+
     static {
         BUILDER.push("SphinxRiddle Configuration");
 
@@ -28,6 +32,14 @@ public class Config {
         AUTO_QUESTION_ENABLED = BUILDER
                 .comment("Enable automatic questions")
                 .define("autoQuestionEnabled", true);
+
+        ALLOW_MANUAL_QUESTION = BUILDER
+                .comment("Allow players to manually start questions with /sr question")
+                .define("allowManualQuestion", true);
+
+        SHOW_SCOREBOARD = BUILDER
+                .comment("Show scoreboard on the right side of client")
+                .define("showScoreboard", true);
 
         QUESTION_PREFIX = BUILDER
                 .comment("Prefix for questions")

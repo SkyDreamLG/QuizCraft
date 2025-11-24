@@ -1,0 +1,28 @@
+{
+  "sphinxriddle.command.help.title": "=== Comandos do SphinxRiddle ===",
+  "sphinxriddle.command.help.question": "/sr question - Iniciar nova pergunta",
+  "sphinxriddle.command.help.question_op": "/sr question - Iniciar nova pergunta (apenas OP)",
+  "sphinxriddle.command.help.add_reward": "/sr add reward <item> <quantidade> - Adicionar recompensa",
+  "sphinxriddle.command.help.remove_reward": "/sr remove reward <item> - Remover recompensa",
+
+  "sphinxriddle.command.reload.success": "Configuração recarregada",
+  "sphinxriddle.command.reload.failed": "SphinxRiddle não inicializado",
+
+  "sphinxriddle.command.add_question.success": "Pergunta adicionada: %s",
+  "sphinxriddle.command.add_reward.success": "Recompensa adicionada: %s *%s",
+
+  "sphinxriddle.command.question.success": "Nova pergunta publicada",
+
+  "sphinxriddle.command.list.questions": "=== Lista de Perguntas ===",
+  "sphinxriddle.command.list.rewards": "=== Lista de Recompensas ===",
+  "sphinxriddle.command.list.ranking": "=== Classificação ===",
+  "sphinxriddle.command.list.no_data": "Nenhum dado disponível",
+
+  "sphinxriddle.command.reset_ranking.success": "Classificação reiniciada",
+
+  "sphinxriddle.command.remove_question.success": "Pergunta removida: %s",
+  "sphinxriddle.command.remove_reward.success": "Recompensa removida: %s",
+
+  "sphinxriddle.scoreboard.title": "Classificação do Quiz",
+  "sphinxriddle.scoreboard.points": " pontos"
+}

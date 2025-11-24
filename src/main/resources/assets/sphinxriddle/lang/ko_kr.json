@@ -1,0 +1,28 @@
+{
+  "sphinxriddle.command.help.title": "=== SphinxRiddle 명령어 ===",
+  "sphinxriddle.command.help.question": "/sr question - 새로운 질문 시작",
+  "sphinxriddle.command.help.question_op": "/sr question - 새로운 질문 시작 (OP 전용)",
+  "sphinxriddle.command.help.add_reward": "/sr add reward <아이템> <수량> - 보상 추가",
+  "sphinxriddle.command.help.remove_reward": "/sr remove reward <아이템> - 보상 제거",
+
+  "sphinxriddle.command.reload.success": "설정을 다시 불러왔습니다",
+  "sphinxriddle.command.reload.failed": "SphinxRiddle이 초기화되지 않았습니다",
+
+  "sphinxriddle.command.add_question.success": "질문을 추가했습니다: %s",
+  "sphinxriddle.command.add_reward.success": "보상을 추가했습니다: %s *%s",
+
+  "sphinxriddle.command.question.success": "새로운 질문을 발표했습니다",
+
+  "sphinxriddle.command.list.questions": "=== 질문 목록 ===",
+  "sphinxriddle.command.list.rewards": "=== 보상 목록 ===",
+  "sphinxriddle.command.list.ranking": "=== 순위 ===",
+  "sphinxriddle.command.list.no_data": "데이터가 없습니다",
+
+  "sphinxriddle.command.reset_ranking.success": "순위를 초기화했습니다",
+
+  "sphinxriddle.command.remove_question.success": "질문을 삭제했습니다: %s",
+  "sphinxriddle.command.remove_reward.success": "보상을 삭제했습니다: %s",
+
+  "sphinxriddle.scoreboard.title": "퀴즈 순위",
+  "sphinxriddle.scoreboard.points": " 점"
+}

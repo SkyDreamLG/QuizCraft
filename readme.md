@@ -34,12 +34,12 @@ English | [中文](./readme_cn.md)
   - [x] Item auto-completion with MC's item selector
 
 - [x] **Scoreboard & Ranking**
-  - [x] Real-time scoreboard display on client side
+  - [x] Real-time scoreboard display on client side (configurable)
   - [x] Top 15 players ranking with colored positions
   - [x] Persistent score storage
 
 - [x] **Comprehensive Commands**
-  - [x] Player commands: `/sr question`
+  - [x] Player commands: `/sr question` (configurable permission)
   - [x] Admin commands: Question/reward management, scoreboard control
   - [x] Permission-based command access
 
@@ -48,18 +48,23 @@ English | [中文](./readme_cn.md)
   - [x] Hot-reload support
   - [x] Customizable messages and intervals
 
+- [x] **Internationalization (i18n)**
+  - [x] Full English and Chinese language support
+  - [x] Automatic language detection based on client settings
+  - [x] Easy to add more languages
+
 ## Quick Start
 
 ### Installation
-1. Download the latest `sphinx_riddle.jar` from [Releases](https://github.com/SkyDreamLG/SphinxRiddle/releases)
+1. Download the latest `sphinxriddle-x.x-NeoForge-1.21.x.jar` from [Releases](https://github.com/SkyDreamLG/SphinxRiddle/releases)
 2. Place it in your server's `mods` folder
 3. Restart the server
 
 ### Basic Usage
 **For Players:**
 - Answer questions directly in chat when they appear
-- Use `/sr question` to manually start a new question
-- Check your ranking on the right-side scoreboard
+- Use `/sr question` to manually start a new question (if allowed by config)
+- Check your ranking on the right-side scoreboard (if enabled)
 
 **For Admins:**
 ```bash
@@ -79,8 +84,24 @@ English | [中文](./readme_cn.md)
 
 ## Configuration
 
-Configuration files are located in `config/sphinxriddle/`:
+### Main Configuration (config/sphinxriddle-client.toml)
+The mod uses NeoForge's configuration system with the following options:
 
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `questionInterval` | 300 | Time between auto questions (seconds) |
+| `questionTimeout` | 60 | Time before question expires (seconds) |
+| `autoQuestionEnabled` | true | Enable automatic questions |
+| `allowManualQuestion` | true | Allow players to use `/sr question` |
+| `showScoreboard` | true | Display scoreboard on client side |
+| `questionPrefix` | 	"&6[问答]&r " | Prefix for question messages |
+| `rewardMessage` | "&a恭喜 %player% 正确回答问题！获得奖励: %reward%" | Reward announcement message |
+| `newQuestionMessage` | "&e新问题: %question% &e(输入答案到聊天框)" | New question announcement |
+| `configReloadedMessage` | "&aSphinxRiddle 配置重载完成" | Config reload message |
+
+`The prompt information in the configuration file defaults to Chinese. If you need other languages, please modify the configuration file accordingly`
+
+### Data Files (config/sphinxriddle/)
 - `questions.json` - Question and answer pairs
 - `rewards.json` - Reward items and maximum amounts
 - `scoreboard.json` - Player scores and rankings
@@ -112,20 +133,53 @@ Configuration files are located in `config/sphinxriddle/`:
 ### Player Commands
 | Command | Description | Permission |
 |---------|-------------|------------|
-| `/sr question` | Start a new question | All players |
+| `/sr question` | Start a new question | All players (if `allowManualQuestion=true`) or OP only |
 
 ### Admin Commands
 | Command | Description | Permission |
 |---------|-------------|------------|
-| `/sr reload` | Reload configuration | OP |
-| `/sr add question <question> <answer>` | Add new question | OP |
-| `/sr add reward <item> <maxAmount>` | Add reward item | OP |
-| `/sr list question` | List all questions | OP |
-| `/sr list reward` | List all rewards | OP |
-| `/sr list ranking` | Show leaderboard | OP |
-| `/sr reset ranking` | Reset scores | OP |
-| `/sr remove question <question>` | Remove question | OP |
-| `/sr remove reward <item>` | Remove reward | OP |
+| `/sr reload` | Reload configuration | OP (2) |
+| `/sr add question <question> <answer>` | Add new question | OP (2) |
+| `/sr add reward <item> <maxAmount>` | Add reward item | OP (2) |
+| `/sr list question` | List all questions | OP (2) |
+| `/sr list reward` | List all rewards | OP (2) |
+| `/sr list ranking` | Show leaderboard | OP (2) |
+| `/sr reset ranking` | Reset scores | OP (2) |
+| `/sr remove question <question>` | Remove question | OP (2) |
+| `/sr remove reward <item>` | Remove reward | OP (2) |
+
+## Language Support
+
+The mod supports multiple languages automatically based on the client's language setting:
+
+- **English (en_us)** - Default language
+- **Chinese (zh_cn)** - 简体中文
+- **Spanish (es_es)** - Español
+- **French (fr_fr)** - Français
+- **German (de_de)** - Deutsch
+- **Japanese (ja_jp)** - 日本語
+- **Russian (ru_ru)** - Русский
+- **Portuguese (pt_br)** - Português Brasileiro
+- **Korean (ko_kr)** - 한국어
+- **Italian (it_it)** - Italiano
+
+The mod will automatically display text in the player's client language. If a language is not fully translated, it will fall back to English.
+
+### Adding New Languages
+To add support for a new language:
+
+1. Create a new JSON file in `assets/sphinxriddle/lang/` (e.g., `fr_fr.json`)
+2. Add translations using the same keys as in `en_us.json`
+3. The mod will automatically detect and use the appropriate language
+
+Example language file structure:
+```json
+{
+  "sphinxriddle.command.help.title": "=== Commandes SphinxRiddle ===",
+  "sphinxriddle.command.help.question": "/sr question - Démarrer une nouvelle question"
+  // ... more translations
+}
+```
 
 ## Development
 
@@ -141,6 +195,22 @@ cd SphinxRiddle
 - NeoForge
 - Java 17+
 
+### Internationalization
+The mod uses Minecraft's `Component.translatable()` system for all user-facing text. When adding new features:
+
+- Use translation keys instead of hardcoded strings
+- Provide translations in both `en_us.json` and `zh_cn.json`
+- Use string interpolation with `%s` placeholders when needed
+
+Example:
+```java
+// Instead of:
+Component.literal("Configuration reloaded")
+
+// Use:
+Component.translatable("sphinxriddle.command.reload.success")
+```
+
 ## Support
 
 - [GitHub Discussions](https://github.com/SkyDreamLG/SphinxRiddle/discussions) - For questions and support
@@ -149,3 +219,7 @@ cd SphinxRiddle
 ## License
 
 This project is licensed under the GNU LGPL 2.1 License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+**Note**: The scoreboard display and manual question commands can be disabled in the configuration file for server customization.

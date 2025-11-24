@@ -1,0 +1,28 @@
+{
+  "sphinxriddle.command.help.title": "=== SphinxRiddle コマンド ===",
+  "sphinxriddle.command.help.question": "/sr question - 新しい質問を開始",
+  "sphinxriddle.command.help.question_op": "/sr question - 新しい質問を開始 (OPのみ)",
+  "sphinxriddle.command.help.add_reward": "/sr add reward <アイテム> <数量> - 報酬を追加",
+  "sphinxriddle.command.help.remove_reward": "/sr remove reward <アイテム> - 報酬を削除",
+
+  "sphinxriddle.command.reload.success": "設定を再読み込みしました",
+  "sphinxriddle.command.reload.failed": "SphinxRiddleが初期化されていません",
+
+  "sphinxriddle.command.add_question.success": "質問を追加しました: %s",
+  "sphinxriddle.command.add_reward.success": "報酬を追加しました: %s *%s",
+
+  "sphinxriddle.command.question.success": "新しい質問を公開しました",
+
+  "sphinxriddle.command.list.questions": "=== 質問リスト ===",
+  "sphinxriddle.command.list.rewards": "=== 報酬リスト ===",
+  "sphinxriddle.command.list.ranking": "=== ランキング ===",
+  "sphinxriddle.command.list.no_data": "データがありません",
+
+  "sphinxriddle.command.reset_ranking.success": "ランキングをリセットしました",
+
+  "sphinxriddle.command.remove_question.success": "質問を削除しました: %s",
+  "sphinxriddle.command.remove_reward.success": "報酬を削除しました: %s",
+
+  "sphinxriddle.scoreboard.title": "クイズランキング",
+  "sphinxriddle.scoreboard.points": " ポイント"
+}

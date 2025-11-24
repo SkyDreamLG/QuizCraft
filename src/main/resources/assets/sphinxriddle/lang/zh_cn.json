@@ -1,0 +1,28 @@
+{
+  "sphinxriddle.command.help.title": "=== SphinxRiddle 命令帮助 ===",
+  "sphinxriddle.command.help.question": "/sr question - 发起新问题",
+  "sphinxriddle.command.help.question_op": "/sr question - 发起新问题 (仅OP可用)",
+  "sphinxriddle.command.help.add_reward": "/sr add reward <物品> <数量> - 添加奖励",
+  "sphinxriddle.command.help.remove_reward": "/sr remove reward <物品> - 移除奖励",
+
+  "sphinxriddle.command.reload.success": "已重载配置",
+  "sphinxriddle.command.reload.failed": "SphinxRiddle 未初始化",
+
+  "sphinxriddle.command.add_question.success": "添加问题: %s",
+  "sphinxriddle.command.add_reward.success": "添加奖励: %s *%s",
+
+  "sphinxriddle.command.question.success": "已发布新问题",
+
+  "sphinxriddle.command.list.questions": "=== 问题列表 ===",
+  "sphinxriddle.command.list.rewards": "=== 奖励列表 ===",
+  "sphinxriddle.command.list.ranking": "=== 排行榜 ===",
+  "sphinxriddle.command.list.no_data": "暂无数据",
+
+  "sphinxriddle.command.reset_ranking.success": "排行榜已重置",
+
+  "sphinxriddle.command.remove_question.success": "已移除问题: %s",
+  "sphinxriddle.command.remove_reward.success": "已移除奖励: %s",
+
+  "sphinxriddle.scoreboard.title": "问答竞赛排行榜",
+  "sphinxriddle.scoreboard.points": " 分"
+}

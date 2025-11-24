@@ -1,0 +1,28 @@
+{
+  "sphinxriddle.command.help.title": "=== Команды SphinxRiddle ===",
+  "sphinxriddle.command.help.question": "/sr question - Начать новый вопрос",
+  "sphinxriddle.command.help.question_op": "/sr question - Начать новый вопрос (только для OP)",
+  "sphinxriddle.command.help.add_reward": "/sr add reward <предмет> <количество> - Добавить награду",
+  "sphinxriddle.command.help.remove_reward": "/sr remove reward <предмет> - Удалить награду",
+
+  "sphinxriddle.command.reload.success": "Конфигурация перезагружена",
+  "sphinxriddle.command.reload.failed": "SphinxRiddle не инициализирован",
+
+  "sphinxriddle.command.add_question.success": "Вопрос добавлен: %s",
+  "sphinxriddle.command.add_reward.success": "Награда добавлена: %s *%s",
+
+  "sphinxriddle.command.question.success": "Новый вопрос опубликован",
+
+  "sphinxriddle.command.list.questions": "=== Список Вопросов ===",
+  "sphinxriddle.command.list.rewards": "=== Список Наград ===",
+  "sphinxriddle.command.list.ranking": "=== Рейтинг ===",
+  "sphinxriddle.command.list.no_data": "Данные отсутствуют",
+
+  "sphinxriddle.command.reset_ranking.success": "Рейтинг сброшен",
+
+  "sphinxriddle.command.remove_question.success": "Вопрос удален: %s",
+  "sphinxriddle.command.remove_reward.success": "Награда удалена: %s",
+
+  "sphinxriddle.scoreboard.title": "Рейтинг Викторины",
+  "sphinxriddle.scoreboard.points": " очков"
+}

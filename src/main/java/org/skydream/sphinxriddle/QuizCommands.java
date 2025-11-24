@@ -7,7 +7,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.item.ItemArgument; // ★ 新增：物品自动补全支持
+import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class QuizCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
-        System.out.println("QuizCommands: 开始注册命令");
+        System.out.println("QuizCommands: Starting command registration");
 
         // 主命令 - 帮助
         dispatcher.register(Commands.literal("sr")
@@ -29,10 +29,13 @@ public class QuizCommands {
                 })
         );
 
-        // 普通玩家命令
+        // 普通玩家命令 - 根据配置决定权限等级
         dispatcher.register(Commands.literal("sr")
                 .then(Commands.literal("question")
-                        .requires(source -> source.hasPermission(0))
+                        // 根据配置决定权限等级：允许手动发起则为0，否则为2(OP)
+                        .requires(source -> source.hasPermission(
+                                Config.ALLOW_MANUAL_QUESTION.get() ? 0 : 2
+                        ))
                         .executes(ctx -> askNewQuestion(ctx.getSource())))
         );
 
@@ -56,12 +59,11 @@ public class QuizCommands {
                 )
         );
 
-        // ★★★ 添加奖励（物品自动补全）
+        // 添加奖励（物品自动补全）
         dispatcher.register(Commands.literal("sr")
                 .then(Commands.literal("add")
                         .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("reward")
-                                // ★ ItemArgument.item(context) 用于自动补全
                                 .then(Commands.argument("item", ItemArgument.item(context))
                                         .then(Commands.argument("maxAmount", IntegerArgumentType.integer(1))
                                                 .executes(ctx -> {
@@ -125,7 +127,7 @@ public class QuizCommands {
                 )
         );
 
-        // ★★★ 移除奖励（同样使用物品自动补全）
+        // 移除奖励（同样使用物品自动补全）
         dispatcher.register(Commands.literal("sr")
                 .then(Commands.literal("remove")
                         .requires(source -> source.hasPermission(2))
@@ -143,24 +145,31 @@ public class QuizCommands {
                 )
         );
 
-        System.out.println("QuizCommands: 所有命令注册完成");
+        System.out.println("QuizCommands: All commands registered successfully");
     }
 
     private static void showHelp(CommandSourceStack source) {
-        source.sendSuccess(() -> Component.literal("§6=== SphinxRiddle 命令帮助 ==="), false);
-        source.sendSuccess(() -> Component.literal("§a/sr question §7- 发起新问题"), false);
-        source.sendSuccess(() -> Component.literal("§e/sr add reward <物品> <数量> §7- 添加奖励"), false);
-        source.sendSuccess(() -> Component.literal("§e/sr remove reward <物品> §7- 移除奖励"), false);
+        source.sendSuccess(() -> Component.translatable("sphinxriddle.command.help.title"), false);
+
+        // 根据配置显示不同的权限提示
+        if (Config.ALLOW_MANUAL_QUESTION.get()) {
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.help.question"), false);
+        } else {
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.help.question_op"), false);
+        }
+
+        source.sendSuccess(() -> Component.translatable("sphinxriddle.command.help.add_reward"), false);
+        source.sendSuccess(() -> Component.translatable("sphinxriddle.command.help.remove_reward"), false);
     }
 
     private static int reloadConfig(CommandSourceStack source) {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
             manager.reload();
-            source.sendSuccess(() -> Component.literal("§a已重载配置"), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.reload.success"), true);
             return Command.SINGLE_SUCCESS;
         }
-        source.sendSuccess(() -> Component.literal("§cSphinxRiddle 未初始化"), true);
+        source.sendSuccess(() -> Component.translatable("sphinxriddle.command.reload.failed"), true);
         return 0;
     }
 
@@ -168,7 +177,7 @@ public class QuizCommands {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
             manager.addQuestion(new Question(question, answer));
-            source.sendSuccess(() -> Component.literal("§a添加问题: " + question), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.add_question.success", question), true);
             return Command.SINGLE_SUCCESS;
         }
         return 0;
@@ -178,7 +187,7 @@ public class QuizCommands {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
             manager.addReward(new Reward(itemId, maxAmount));
-            source.sendSuccess(() -> Component.literal("§a添加奖励: " + itemId + " *" + maxAmount), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.add_reward.success", itemId, maxAmount), true);
             return Command.SINGLE_SUCCESS;
         }
         return 0;
@@ -188,7 +197,7 @@ public class QuizCommands {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
             manager.askRandomQuestion();
-            source.sendSuccess(() -> Component.literal("§a已发布新问题"), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.question.success"), true);
             return Command.SINGLE_SUCCESS;
         }
         return 0;
@@ -197,7 +206,7 @@ public class QuizCommands {
     private static int listQuestions(CommandSourceStack source) {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
-            source.sendSuccess(() -> Component.literal("§6=== 问题列表 ==="), false);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.list.questions"), false);
             int i = 1;
             for (Question q : manager.getQuestions()) {
                 int idx = i++;
@@ -212,7 +221,7 @@ public class QuizCommands {
     private static int listRewards(CommandSourceStack source) {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
-            source.sendSuccess(() -> Component.literal("§6=== 奖励列表 ==="), false);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.list.rewards"), false);
             int i = 1;
             for (Reward r : manager.getRewards()) {
                 int idx = i++;
@@ -227,25 +236,25 @@ public class QuizCommands {
     private static int listRanking(CommandSourceStack source) {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
-            // 使用正确的方法调用
             Map<String, Integer> rankings = manager.getScoreboard().getRankings();
-            source.sendSuccess(() -> Component.literal("§6=== 排行榜 ==="), false);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.list.ranking"), false);
 
             if (rankings.isEmpty()) {
-                source.sendSuccess(() -> Component.literal("§7暂无数据"), false);
+                source.sendSuccess(() -> Component.translatable("sphinxriddle.command.list.no_data"), false);
             } else {
                 int rank = 1;
                 for (Map.Entry<String, Integer> entry : rankings.entrySet()) {
                     String color = rank == 1 ? "§6" : rank == 2 ? "§7" : rank == 3 ? "§c" : "§f";
                     int finalRank = rank;
-                    source.sendSuccess(() -> Component.literal(color + finalRank + ". §f" + entry.getKey() + " §7- §a" + entry.getValue() + " 分"), false);
+                    source.sendSuccess(() -> Component.literal(color + finalRank + ". §f" + entry.getKey() + " §7- §a" + entry.getValue() +
+                            Component.translatable("sphinxriddle.scoreboard.points").getString()), false);
                     rank++;
                     if (rank > 10) break;
                 }
             }
             return Command.SINGLE_SUCCESS;
         }
-        source.sendSuccess(() -> Component.literal("§cSphinxRiddle 未初始化"), true);
+        source.sendSuccess(() -> Component.translatable("sphinxriddle.command.reload.failed"), true);
         return 0;
     }
 
@@ -254,10 +263,10 @@ public class QuizCommands {
         if (manager != null) {
             manager.getScoreboard().resetScoreboard();
             manager.updateScoreboardForAllPlayers();
-            source.sendSuccess(() -> Component.literal("§a排行榜已重置"), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.reset_ranking.success"), true);
             return Command.SINGLE_SUCCESS;
         }
-        source.sendSuccess(() -> Component.literal("§cSphinxRiddle 未初始化"), true);
+        source.sendSuccess(() -> Component.translatable("sphinxriddle.command.reload.failed"), true);
         return 0;
     }
 
@@ -265,7 +274,7 @@ public class QuizCommands {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
             manager.removeQuestion(text);
-            source.sendSuccess(() -> Component.literal("§a已移除问题: " + text), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.remove_question.success", text), true);
             return Command.SINGLE_SUCCESS;
         }
         return 0;
@@ -275,7 +284,7 @@ public class QuizCommands {
         QuizManager manager = SphinxRiddle.getQuizManager();
         if (manager != null) {
             manager.removeReward(itemId);
-            source.sendSuccess(() -> Component.literal("§a已移除奖励: " + itemId), true);
+            source.sendSuccess(() -> Component.translatable("sphinxriddle.command.remove_reward.success", itemId), true);
             return Command.SINGLE_SUCCESS;
         }
         return 0;

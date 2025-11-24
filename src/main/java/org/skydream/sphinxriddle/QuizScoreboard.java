@@ -81,11 +81,32 @@ public class QuizScoreboard {
 
     // 计分板显示功能
     public void initializeScoreboard(MinecraftServer server) {
-        createScoreboard(server);
+        // 根据配置决定是否显示计分板
+        if (Config.SHOW_SCOREBOARD.get()) {
+            createScoreboard(server);
+        } else {
+            removeScoreboard(server);
+        }
     }
 
     public void updateScoreboardDisplay(MinecraftServer server) {
-        createScoreboard(server);
+        // 根据配置决定是否显示计分板
+        if (Config.SHOW_SCOREBOARD.get()) {
+            createScoreboard(server);
+        } else {
+            removeScoreboard(server);
+        }
+    }
+
+    // 新增：移除计分板的方法
+    private void removeScoreboard(MinecraftServer server) {
+        Scoreboard scoreboard = server.getScoreboard();
+        String objectiveName = "sphinxriddle_ranking";
+
+        Objective oldObj = scoreboard.getObjective(objectiveName);
+        if (oldObj != null) {
+            scoreboard.removeObjective(oldObj);
+        }
     }
 
     private void createScoreboard(MinecraftServer server) {
@@ -98,11 +119,11 @@ public class QuizScoreboard {
             scoreboard.removeObjective(oldObj);
         }
 
-        // 创建新目标
+        // 创建新目标 - 使用国际化标题
         Objective objective = scoreboard.addObjective(
                 objectiveName,
                 ObjectiveCriteria.DUMMY,
-                Component.literal("§6§l问答竞赛排行榜"),
+                Component.translatable("sphinxriddle.scoreboard.title"),
                 ObjectiveCriteria.RenderType.INTEGER,
                 false,
                 null
